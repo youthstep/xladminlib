@@ -1,3 +1,158 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.xunlei</groupId>
+  <artifactId>xllib</artifactId>
+  <packaging>war</packaging>
+  <version>4.0.0</version>
+  <name>xllib4</name>
+  <url>http://maven.apache.org</url>
+  <build>
+    <finalName>xllib</finalName>
+  </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-beans</artifactId>
+  		<version>3.2.1.RELEASE</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-context</artifactId>
+  		<version>3.2.1.RELEASE</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-jdbc</artifactId>
+  		<version>3.2.1.RELEASE</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.directory.studio</groupId>
+  		<artifactId>org.apache.commons.collections</artifactId>
+  		<version>3.2.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.directory.studio</groupId>
+  		<artifactId>org.apache.commons.logging</artifactId>
+  		<version>1.1.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.directory.studio</groupId>
+  		<artifactId>org.apache.logging.log4j</artifactId>
+  		<version>1.2.17</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.directory.studio</groupId>
+  		<artifactId>org.apache.commons.lang</artifactId>
+  		<version>2.6</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.aspectj</groupId>
+  		<artifactId>aspectjweaver</artifactId>
+  		<version>1.7.2</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.velocity</groupId>
+  		<artifactId>velocity</artifactId>
+  		<version>1.7</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.directory.studio</groupId>
+  		<artifactId>org.dom4j.dom4j</artifactId>
+  		<version>1.6.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>mysql</groupId>
+  		<artifactId>mysql-connector-java</artifactId>
+  		<version>5.1.24</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-web</artifactId>
+  		<version>3.2.1.RELEASE</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.octo.captcha</groupId>
+  		<artifactId>jcaptcha-all</artifactId>
+  		<version>1.0-RC6</version>
+  		<exclusions>
+  			<exclusion>
+  				<artifactId>spring</artifactId>
+  				<groupId>org.springframework</groupId>
+  			</exclusion>
+  			<exclusion>
+  				<artifactId>commons-pool</artifactId>
+  				<groupId>commons-pool</groupId>
+  			</exclusion>
+  			<exclusion>
+  				<artifactId>xercesImpl</artifactId>
+  				<groupId>xerces</groupId>
+  			</exclusion>
+  			<exclusion>
+  				<artifactId>quartz</artifactId>
+  				<groupId>quartz</groupId>
+  			</exclusion>
+  			<exclusion>
+  				<artifactId>commons-dbcp</artifactId>
+  				<groupId>commons-dbcp</groupId>
+  			</exclusion>
+  			<exclusion>
+  				<artifactId>ehcache</artifactId>
+  				<groupId>net.sf.ehcache</groupId>
+  			</exclusion>
+  			<exclusion>
+  				<artifactId>hsqldb</artifactId>
+  				<groupId>hsqldb</groupId>
+  			</exclusion>
+  			<exclusion>
+  				<artifactId>xmlParserAPIs</artifactId>
+  				<groupId>xerces</groupId>
+  			</exclusion>
+  			<exclusion>
+  				<artifactId>concurrent</artifactId>
+  				<groupId>concurrent</groupId>
+  			</exclusion>
+  		</exclusions>
+  	</dependency>
+  	<dependency>
+  		<groupId>c3p0</groupId>
+  		<artifactId>c3p0</artifactId>
+  		<version>0.9.1.2</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>dwr</groupId>
+  		<artifactId>dwr</artifactId>
+  		<version>3.0.0</version>
+  		<scope>system</scope>  
+    	<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/dwr.jar</systemPath> 
+  	</dependency>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>4.11</version>
+  		<scope>test</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>javax.servlet</groupId>
+  		<artifactId>javax.servlet-api</artifactId>
+  		<version>3.1.0</version>
+  		<scope>runtime</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-aop</artifactId>
+  		<version>3.2.1.RELEASE</version>
+  	</dependency>
+  </dependencies>
+</project>
+=======
+=======
+>>>>>>> 9e71c01835b40aae2a6acfa82c417dece4631500
+=======
+>>>>>>> 9e71c01835b40aae2a6acfa82c417dece4631500
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -143,4 +298,11 @@
   		<scope>test</scope>
   	</dependency>
   </dependencies>
-</project>1
+</project>
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 9e71c01835b40aae2a6acfa82c417dece4631500
+=======
+>>>>>>> 9e71c01835b40aae2a6acfa82c417dece4631500
+=======
+>>>>>>> 9e71c01835b40aae2a6acfa82c417dece4631500
