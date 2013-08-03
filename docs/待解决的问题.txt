@@ -1,0 +1,10 @@
+1.	SQL注入检查
+2.	不支持多重排序
+3.	pager 的分页问题是通过填充结果数组来hack的 理应有其他解决方式 修改了jqgrid源码1899行 注释 1903行
+4.	jqgrid修改源码 增加了 event "jqGridPagerStateChange"
+5.	分页控件对修改页数无效
+6.	dataProxy context需要抽象到common.js
+7.	无权限控制
+8.	对于只有插入可以修改的字段，编辑不能修改的字段，目前没有解决方案
+9.	基类的泛型目前支持不力
+10.	context 各种事件支持等 libclassM支持不到位 

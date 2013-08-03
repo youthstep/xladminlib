@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>系统数组维护</title>
+<link href="../css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet" />
+<link href="../css/ui.jqgrid.css" rel="stylesheet" />
+<link href="../css/common.css" rel="stylesheet" />
+<script src="../js/jquery.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src='../js/common.js'></script>
+<script src="../js/jquery.jqGrid.js"></script>
+<script type="text/javascript">
+	$(function(){
+		xl.libfun.loadService([ "libclassdService", "libclassmService"], function() {
+			var grid = $("#list"), context = new xl.libfun.QueryContext({grid : grid, ser : libclassmService, queryInfo : new xl.libfun.QueryInfo()});
+			
+			xl.libfun.jqGridInit({grid : "#list", context : context, pager : "#pager", options : 
+				{
+					colNames : ['数组编号','数组名称','备注']
+					, colModel : [
+								{name:'classno', editable : true, edittype : "text"},
+								{name:'classname', editable : true, edittype : "text"},
+								{name:'remark', editable : true, edittype : "text"}]
+					, subGrid : true
+					, subGridRowExpanded : function(subGridId,rowId){
+						var subGridTableId = subGridId + "_t", pagerId = "p_" + subGridTableId;
+						$("#"+subGridId).html("<table id='"+subGridTableId+"' class='scroll'></table><div id='"+pagerId+"' class='scroll'></div>");
+						var grid2 = $("#"+subGridTableId), 
+							context2 = new xl.libfun.QueryContext({grid : grid2 
+								, ser : libclassdService
+								, queryInfo : new xl.libfun.QueryInfo({pageSize : 10})
+								, beforeAdd : function(e){
+									e.data.classno = context.getDatas()[rowId - 1].classno;
+								}
+							});
+						xl.libfun.jqGridInit({grid : "#" + subGridTableId, context : context2, pager : "#" + pagerId , options : {
+								colNames : ['编号','名称','值','顺序','备注']
+								, colModel : [
+										{name:'itemno', editable : true, edittype : "text"},
+										{name:'itemname', editable : true, edittype : "text"},
+										{name:'itemvalue', editable : true, edittype : "text"},
+										{name:'itemorder', editable : true, edittype : "text"},
+										{name:'remark', editable : true, edittype : "text"}]
+								, toppager : false
+								, colCustom : [{editable : false}, {}, {}, {}, {}]
+							}
+						});
+						context2.getQueryInfo().setSqlCondition("classno='" + context.getDatas()[rowId - 1].classno + "'");
+						context2.query();
+					}
+				}
+			});
+			
+			$("#searchBtn").button().click(function(){
+				context.queryInfo.sqlCondition = "classno like '%" + $("#classnoInp").val() + "%'";
+				context.query();
+			});
+			
+			context.query();
+		});
+	});
+</script>
+</head>
+<body>
+<div class="libfun-module">
+	<div class="ui-state-default ui-corner-all">系统数组维护</div>
+	<div class="ui-state-default ui-corner-all">
+		数组编号：<input id="classnoInp" />
+		数组名称：<input id="classnameInp" />
+		<button id="searchBtn">搜索</button>
+	</div>
+	<div class="libfun-content">
+		<table id="list"></table>
+		<div id="pager"></div>
+	</div>
+</div>
+</body>
+</html>

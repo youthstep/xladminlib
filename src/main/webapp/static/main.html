@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>迅雷管理系统4.0</title>
+<link rel="icon" href="/server/favicon.ico" type="image/x-icon" />
+<link href="css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet" />
+<link href="css/common.css" rel="stylesheet" />
+<link href="css/jqtree.css" rel="stylesheet" />
+<script src="js/jquery.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jqtree.js"></script>
+
+<script type='text/javascript' src='js/common.js'></script>
+<script type="text/javascript">
+	$(function(){
+		var rootMenu;
+		xl.libfun.loadService([ "commonService" ], function() {		
+			commonService.getMenus(function(rtn){
+				//to tree
+				var menuMap = {}, i;
+				for(i = 0; i < rtn.length; i++){
+					menuMap[rtn[i].menuno] = rtn[i];
+					rtn[i].children = [];
+					rtn[i].label = rtn[i].menuname;
+				}
+				for(i = 0; i < rtn.length; i++){
+					if(rtn[i].pmenuno !== "-1"){
+						menuMap[rtn[i].pmenuno].children.push(rtn[i]);
+					}
+				}
+				
+				//show menus
+				var topMenus = menuMap["0"].children;//default root menu no : "0"
+				if(topMenus.length > 0){
+					for(i = 0;i < topMenus.length; i++){
+						$('<input id="topMenu'+i+'" type="radio" name="topMenus"><label for="topMenu'+i+'">'+topMenus[i].menuname+'</label>')
+							.data("menuIndex", i)
+							.click(function(){
+								$("#leftMenus").empty().tree({
+						            	data: topMenus[$(this).data("menuIndex")].children,
+						            	autoOpen: true
+						            }).on("tree.click", function(event){
+						            	if(event.node){
+						            		$("#content").attr("src", xl.cfg.root + xl.cfg.page + event.node.menuurl);
+						            	}
+						            });
+							})
+							.appendTo("#topMenus");
+					}
+					$("#topMenus").buttonset();
+				}
+			});
+		});
+	});
+</script>
+</head>
+<body>
+<div class="xl-main-top">
+	<div id="topMenus"></div>
+</div>
+<div id="leftMenus" class="xl-main-left"></div>
+<div class="xl-main-content">
+	<iframe id="content"></iframe>
+	<div class="xl-main-bottom"></div>
+</div>
+</body>
+</html>

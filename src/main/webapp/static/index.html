@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>迅雷管理系统4.0</title>
+<link href="css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet" />
+<link rel="icon" href="/server/favicon.ico" type="image/x-icon" />
+<link href="css/common.css" rel="stylesheet" />
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font: normal 12px/1.6 Tahoma;
+	color: #3F3F3F;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	empty-cells: show;
+	text-align: left;
+}
+
+th,td {
+	border-collapse: collapse;
+}
+
+ol,ul {
+	list-style: none;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-size: 100%;
+}
+
+a {
+	text-decoration: underline;
+	color: #007EF4;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+img {
+	border: 0;
+}
+
+#wrap {
+	clear: both;
+	width: 778px;
+	margin: 0 auto;
+	overflow: hidden;
+	zoom: 1;
+}
+
+#header {
+	padding: 22px 0 17px 0;
+}
+
+h1 {
+	color: #3359A8;
+	font-size: 24px;
+	font-family: "Microsoft YaHei", "Microsoft JhengHei";
+}
+
+h1 span {
+	display: block;
+	font-size: 14px;
+	font-weight: normal;
+	color: #CECECE;
+	margin-top: -7px;
+}
+
+em {
+	color: #0F9718;
+	font-style: normal;
+}
+
+#main {
+	float: left;
+	width: 500px;
+	padding-top: 2px;
+}
+
+#main p {
+	padding-top: 16px;
+}
+
+.img_box {
+	position: relative;
+	width: 500px;
+	height: 333px;
+}
+
+.img_box img {
+	width: 500px;
+	height: 333px;
+}
+
+.bg_txt {
+	background: #000;
+	filter: alpha(opacity =   50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+	width: 500px;
+	height: 33px;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+
+.txt {
+	position: absolute;
+	color: #BEBEBE;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	padding-left: 16px;
+	height: 33px;
+	line-height: 33px;
+}
+
+.img_box span {
+	position: absolute;
+	right: 5px;
+	bottom: 8px;
+	font-size: 10px;
+	color: #999;
+	font-weight: normal;
+}
+
+#sidebar {
+	float: right;
+	width: 248px;
+	border: 1px solid #CEDAE1;
+	height: 316px;
+	background: #F6F7FB;
+	padding: 9px;
+}
+
+#sidebar h3 {
+	background: url(images/h3_bg.jpg) no-repeat 10px 0;
+	font-size: 14px;
+	border-bottom: 1px dotted #C0C0C0;
+	padding: 0 0 0 36px;
+}
+
+.login {
+	padding: 0px 0 10px 0;
+}
+
+.login li {
+	padding: 6px 0;
+}
+
+.login .input {
+	border: 1px solid #A8CDE4;
+	width: 169px;
+	height: 21px;
+	line-height: 21px;
+	padding: 0 0 0 2px;
+}
+
+.login input#yz {
+	width: 46px;
+}
+
+.login_btn {
+	background: url(images/login_btn.png) no-repeat;
+	width: 68px;
+	height: 22px;
+	border: none;
+	cursor: pointer;
+}
+
+.add_btn {
+	background: url(images/add_btn.png) no-repeat;
+	width: 68px;
+	height: 22px;
+	border: none;
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+.login li.pleft {
+	padding-left: 64px;
+}
+
+.login li a {
+	position: absolute;
+	right: 58px;
+}
+
+#sidebar h4 {
+	color: #0066CC;
+	font-weight: normal;
+	padding-top: 40px;
+}
+
+#sidebar p {
+	padding: 5px 10px 0 10px;
+	border-top: 1px dotted #C0C0C0;
+	line-height: 1.8;
+}
+
+#sidebar strong {
+	background: url(images/notice_img.png) no-repeat;
+	padding-left: 20px;
+	color: #DD0000;
+}
+
+#footer {
+	clear: both;
+	padding: 10px 0;
+	color: #B5B5B5;
+	text-align: center;
+	border-top: 1px solid #efefef;
+	margin: 20px 0;
+}
+
+#footer span {
+	font-family: Verdana;
+	font-size: 10px;
+	display: block;
+	padding: 3px 0;
+	line-height: normal;
+}
+
+label {
+	display: inline;
+}
+</style>
+<script src="js/jquery.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src='js/common.js'></script>
+<script src="js/index.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<div id="header">
+			<h1>迅雷单点登录系统
+				<span>
+					<a href="readme.html">使用说明</a>&nbsp;&nbsp;您访问的URL需要认证:http://hr.sandai.net:1010/oa/plaf/caslogin.jsf&nbsp;[<a href="http://hr.sandai.net:1010/oa/plaf/login.jsf" class="a2">原登录方式</a>]
+				</span>
+			</h1>
+		</div>
+		<div id="main">
+			<div class="img_box">
+				<img id="pic" src="images/default.jpg" alt="" />
+			</div>
+		</div>
+		<div id="sidebar">
+			<h3>
+				用户登录<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+					href="http://sso.sandai.net/cas/pas/forgetpas.jsp" target="_blank"
+					style="font-size: 12px">忘记密码？</a></span>
+			</h3>
+			<div style="height: 25px">
+				<div id="loginErr"
+					style="font-weight: bold; color: red; text-align: center;"></div>
+			</div>
+			<ul class="login">
+				<li>
+					<label for="username"> 用户名： </label>
+					<input id="username" name="username" class="required" style="width: 175px; height: 20px;" tabindex="1"
+						accesskey="n" type="text" value="" size="20" autocomplete="false" />
+				</li>
+				<li><label for="password">密&nbsp;&nbsp;&nbsp;码：</label> <input id="flpwd" name="password" class="required"
+						style="width: 175px; height: 20px;" tabindex="2" accesskey="p" type="password" value="" size="20" autocomplete="off" />
+				</li>
+				<!-- 添加验证码 -->
+				<li>
+					<label for="verifycode">验证码：</label>
+					<input type="text" id="vcode" maxlength="4" tabindex="3" value="" style="margin-left: 5px; width: 75px; height: 20px; vertical-align: top" />
+					<img id="vcodeImg" title="看不清？点击刷新X" style="cursor: pointer" alt="看不清？点击刷新" />
+					<a style="display:none;" id="vcodeBtn" title="看不清换一张验证码">换一张</a>
+				</li>
+				<li class="pleft">
+					<input id="flLoginBtn" type="button" value=" " alt="登录" class="login_btn"></input> 
+					<input type="button" value=" " alt="重置输入" onclick="resetit()" class="add_btn"></input>
+				</li>
+			</ul>
+			<p><strong>注意：你试图访问后台系统时自动跳转到单点登录系统中，首次登录时请先阅读<a href="readme.html">使用说明</a></strong></p>
+		</div>
+		<div id="footer">
+			迅雷公司 版权所有 <a href="mailto:jason@xunlei.com?subject=%D2%E2%BC%FB%B7%B4%C0%A1-null">联系我们</a>
+			&nbsp;<a href="javascript:window.external.addFavorite('http://sso.sandai.net/','迅雷单点登录系统')">加入收藏</a>
+			<span>Copyright 2003-2011 ThundeR Inc. All Rights Reserved</span>
+		</div>
+	</div>
+</body>
+</html>

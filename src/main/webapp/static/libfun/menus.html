@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>迅雷管理系统4.0</title>
+<link href="../css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet" />
+<link href="../css/jqtree.css" rel="stylesheet" />
+<link href="../css/ui.jqgrid.css" rel="stylesheet" />
+<link href="../css/common.css" rel="stylesheet" />
+<script src="../js/jquery.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/jquery.jqGrid.js"></script>
+<script src="../js/jqtree.js"></script>
+<script src='../js/common.js'></script>
+
+</head>
+<body>
+<div class="libfun-module" style="display:none;">
+	<table id="list"></table>
+	<div id="pager"></div>
+</div>
+<div class="libfun-module">
+	<div class="ui-jqgrid-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">菜单管理</div>
+	<div class="ui-state-default ui-corner-all">
+		<button id="addBtn">新增</button>
+		<button id="editBtn">修改</button>
+		<button id="delBtn">删除</button>
+	</div>
+	<div>
+	<!--  
+		<div id="editWin">
+			<form>
+				<table>
+					<tbody>
+						<tr><td>名称</td><td><input name="menuname"/></td></tr>
+						<tr><td>URL</td><td><input name="menuurl"/></td></tr>
+						<tr><td>上级菜单</td><td><input name="pmenuno"/></td></tr>
+						<tr><td>生效</td><td><input type="checkbox" name="inuse"/></td></tr>
+						<tr><td>自动展开</td><td><input type="checkbox" name="expand"/></td></tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	-->
+		<div id="tree"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var Alert = xl.libfun.Alert;
+	$(function(){
+		xl.libfun.loadService([ "menusService" ], function() {
+			var grid = $("#list")
+				, context = new xl.libfun.QueryContext({grid : grid
+					, ser : menusService
+					, queryInfo : new xl.libfun.QueryInfo()
+					, autoQuery : false
+					, afterAdd : function(e){
+						
+					}})
+				, menuMap = {}, i, tree;
+			//init grid
+			xl.libfun.jqGridInit({
+				grid : "#list"
+				, context : context
+				, pager : "#pager"
+				, options : {
+					colNames : ['编号','名称','url','生效']
+					, caption : "菜单维护"
+					, colModel : [
+				  			{name:'menuno', editable : true, edittype : "text"},
+							{name:'menuname', editable : true, edittype : "text"},
+							{name:'menuurl', editable : true, edittype : "text"},
+							{name:'inuse', editable : true, edittype : "text"}]
+				}
+			});
+			//init tree
+			menusService.getAllMenus(function(rtn){
+				for(i = 0; i < rtn.length; i++){
+					menuMap[rtn[i].menuno] = rtn[i];
+					rtn[i].children = [];
+					rtn[i].label = rtn[i].menuname;
+				}
+				for(i = 0; i < rtn.length; i++){
+					if(rtn[i].pmenuno !== "-1"){
+						menuMap[rtn[i].pmenuno].children.push(rtn[i]);
+					}
+				}
+				tree = $("#tree").tree({dragAndDrop : true, data : menuMap[0].children, autoOpen : false})
+					.on("tree.move", function(e){
+						//修改displayorder的方式是直接插入后 其余 兄弟节点自增或自减，所以频繁修改
+						var move = e.move_info.moved_node, target = e.move_info.target_node, pos = e.move_info.position;
+						if(pos === "before"){
+							move.pmenuno = target.pmenuno;
+							move.displayorder = target.displayorder;
+							menusService.update(move, function(r){});
+							for(i = 0; i < target.parent.children.length; i++){
+								var m = target.parent.children[i];
+								if(m.menuno != move.menuno && m.displayorder >= move.displayorder){
+									m.displayorder++;
+									menusService.update(m, function(r){});
+								}
+							}
+						}else if(pos === "after"){
+							move.pmenuno = target.pmenuno;
+							move.displayorder = target.displayorder;
+							menusService.update(move, function(r){});
+							for(i = 0; i < target.parent.children.length; i++){
+								var m = target.parent.children[i];
+								if(m.menuno != move.menuno && m.displayorder <= move.displayorder){
+									m.displayorder--;
+									menusService.update(m, function(r){});
+								}
+							}
+						}else if(pos === "inside"){
+							move.pmenuno = target.menuno;
+							if(target.children && target.children.length > 0){
+								move.displayorder = target.children[0].displayorder - 1;
+							}else{
+								move.displayorder = 0;
+							}
+							menusService.update(move, function(r){});
+						}
+					});
+				$("#addBtn").button().click(function(){
+					grid.trigger("jqGridAddEdit");
+					var selNode = tree.tree("getSelectedNode");
+					if(selNode){
+						grid.jqGrid("editGridRow", "new");
+					}else{
+						alert.show("请至少选择一个菜单节点作为新建菜单的位置");
+					}
+				});
+			});
+		});
+	});
+</script>
+</body>
+</html>
