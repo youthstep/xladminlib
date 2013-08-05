@@ -20,7 +20,7 @@ public class AuthBoImpl extends BaseBo implements IAuthBo{
 	public List<Privilege> getUserPrivilegeByType(String username, int type) {
 		return utilDao.query(
 				Privilege.class
-				, "select p.* from usersrole ur,roleprivilege rp,privilege p where ur.username='" + username +"' and ur.roleno=rp.ruleno and rp.privilegeid=p.seqid and rp.type=" + type);
+				, "select p.* from usersrole ur,roleprivilege rp,privilege p where ur.username='" + username +"' and ur.roleno=rp.roleno and rp.privilegeid=p.seqid and p.type=" + type);
 	}
 
 //	@Override

@@ -1,23 +1,22 @@
 package com.xunlei.libfun.bo;
 
-
-
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.directwebremoting.annotations.RemoteMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import com.xunlei.common.bo.BaseBo;
 import com.xunlei.common.bo.XLService;
 import com.xunlei.common.event.XLRuntimeException;
-import com.xunlei.common.util.StringTools;
+import com.xunlei.libfun.vo.Privilege;
 import com.xunlei.libfun.vo.UserInfo;
 @Aspect
 @Component
@@ -26,11 +25,33 @@ public class AuthenticateImpl extends XLService implements IAuthenticate{
 	@Autowired
 	public IAuthBo authBo;
 	
-	//不能用or来连接各包的方法 by super  2012-11-28 21:19:46
-	@Before("@org.directwebremoting.annotations.RemoteMethod * *(..)")
+	@Before("@annotation(org.directwebremoting.annotations.RemoteMethod)")
 	public void doAuth(JoinPoint joinPoint)  {
 		MethodSignature joinPointObject = (MethodSignature) joinPoint.getSignature(); 
+		Service serviceAnn = (Service) joinPointObject.getDeclaringType().getAnnotation(Service.class);
 		Method method =  joinPointObject.getMethod();
+		String serviceName = serviceAnn.value(), methodName = method.getName();
+		if("commonService".equals(serviceName) && "login".equals(methodName)){
+			
+		}else{
+			UserInfo userInfo = currentUserInfo();
+			if(userInfo == null){
+				logger.warn("deny access:" + userInfo + "|" + serviceName + "|" + methodName);
+				throw new XLRuntimeException("auth fail : no login info");
+			}else if(userInfo.getUser().isSuperman()){
+				
+			}else{
+				Privilege pri = userInfo.getServicePrivilegeMap().get(serviceName + "-" + methodName);
+				if(pri == null){
+					logger.warn("deny access:" + userInfo.getUserlogno() + "|" + serviceName + "|" + methodName);
+					throw new XLRuntimeException("auth fail : no privilege");
+				}else{
+					logger.warn("allow access:" + userInfo.getUserlogno() + "|" + serviceName + "|" + methodName + "|" + StringUtils.join(joinPoint.getArgs(),","));
+				}
+			}
+		}
+		
+		
 		//只有RemotingInclude的才控制
 //		if(meth!=null){
 			//进入权限控制

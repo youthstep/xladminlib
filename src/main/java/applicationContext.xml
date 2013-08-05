@@ -52,7 +52,5 @@
 	</context:component-scan>
 	
 	 <!-- 利用aop进行权限控制 自动扫描了注解了切面的类 默认采用java动态代理，proxy-target-class="true"采用CGLIB-->
-	<!-- 
 	<aop:aspectj-autoproxy proxy-target-class="true" />
-	 -->
 </beans>

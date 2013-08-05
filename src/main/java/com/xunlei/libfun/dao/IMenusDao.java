@@ -24,10 +24,9 @@ public interface IMenusDao {
 	List<Menus> getInuseMenus();
 	
 	/**
-	 * 获得生效的由userlongno过滤的menus
-	 * 默认按照 displayorder asc
-	 * @param userlogno 用户登录帐号
+	 * 仅包含有效的菜单
+	 * @param menunos
 	 * @return
 	 */
-	List<Menus> getMenusByUserlongno(String userlogno);
+	List<Menus> getMenusByMenunos(List<String> menunos);
 }

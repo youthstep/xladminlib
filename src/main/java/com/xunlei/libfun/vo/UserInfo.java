@@ -7,6 +7,11 @@
 
 package com.xunlei.libfun.vo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.directwebremoting.annotations.DataTransferObject;
 
 import com.xunlei.libfun.constant.LoginStatus;
@@ -31,10 +36,22 @@ public class UserInfo{
     private String loginMsg;
 
     private Users user;
+    
+    private Map<String,Privilege> servicePrivilegeMap = new HashMap<String, Privilege>();
+    
+    private List<String> menunoList = new ArrayList<String>();
 
-	public UserInfo(Users user) {
+    public UserInfo(Users user) {
 		super();
 		this.user = user;
+	}
+    
+    public List<String> getMenunoList() {
+		return menunoList;
+	}
+
+	public Map<String, Privilege> getServicePrivilegeMap() {
+		return servicePrivilegeMap;
 	}
 	
 	public String getUserlogno() {

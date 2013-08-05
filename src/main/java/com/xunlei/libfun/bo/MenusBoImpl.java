@@ -41,7 +41,7 @@ public class MenusBoImpl extends DataAccessBo<Menus> implements IMenusBo {
 		if(userinfo.getUser().isSuperman()){
 			return menusDao.getInuseMenus();
 		}else {
-			return menusDao.getMenusByUserlongno(userinfo.getUserlogno());
+			return menusDao.getMenusByMenunos(userinfo.getMenunoList());
 		}
 	}
 

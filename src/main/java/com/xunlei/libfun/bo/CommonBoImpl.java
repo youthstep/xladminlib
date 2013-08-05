@@ -14,13 +14,15 @@ import com.xunlei.common.util.Constants;
 import com.xunlei.common.util.VerifycodeUtil;
 import com.xunlei.common.web.bean.DataReturn;
 import com.xunlei.libfun.constant.LoginStatus;
+import com.xunlei.libfun.constant.PrivilegeTypes;
 import com.xunlei.libfun.vo.LibConfig;
 import com.xunlei.libfun.vo.Menus;
+import com.xunlei.libfun.vo.Privilege;
 import com.xunlei.libfun.vo.UserInfo;
 
 /**
  * 
- * @author liheng
+ * @author lixin
  * 常用的一些业务，如配置获取，登录，用户菜单等
  * @since 2011-10-27 上午11:13:33
  */
@@ -33,6 +35,8 @@ public class CommonBoImpl  extends XLService implements ICommonBo{
 	public IUsersBo usersBo;
 	@Autowired
 	public IMenusBo menusBo;
+	@Autowired
+	public IAuthBo authBo;
 	
 	/**
 	 * 获得系统配置
@@ -69,6 +73,20 @@ public class CommonBoImpl  extends XLService implements ICommonBo{
         	if(userInfo.getLoginStatus() == LoginStatus.OK){
         		setSession(UserInfo.NAME, userInfo);
                 setSession(Constants.LOGINCLIENTIP,this.getHttpServletRequest().getRemoteAddr());
+                //init privilege
+                List<Privilege> pList = authBo.getUserPrivilegeByType(username, PrivilegeTypes.SERVICE_METHOD);
+                if(pList != null){
+                	for(Privilege p : pList){
+                		userInfo.getServicePrivilegeMap().put(p.getName() + "-" + p.getValue(), p);
+                	}
+                }
+                
+                pList = authBo.getUserPrivilegeByType(username, PrivilegeTypes.MENU);
+                if(pList != null){
+                	for(Privilege p : pList){
+                		userInfo.getMenunoList().add(p.getValue());
+                	}
+                }
         	}
         }
 		return userInfo;

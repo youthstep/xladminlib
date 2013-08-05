@@ -8,6 +8,7 @@ package com.xunlei.libfun.dao;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
 import com.xunlei.common.dao.BaseDao;
@@ -36,11 +37,10 @@ public class MenusDaoImpl extends BaseDao implements IMenusDao{
 	}
 
 	@Override
-	public List<Menus> getMenusByUserlongno(String userlogno) {
+	public List<Menus> getMenusByMenunos(List<String> menunos) {
 		return this.findObjects(
 				new Menus(), 
-				"inuse=" + Menus.INUSE_TRUE + " and funcno IN ('',SELECT funcno FROM rolerights WHERE roleno IN (SELECT roleno FROM usertorole WHERE userlogno='"+userlogno+"')", 
-				"displayorder asc"
-				);
+				"inuse=" + Menus.INUSE_TRUE + " and menuno in ('" + StringUtils.join(menunos, "','") + "')", 
+				"");
 	}	
 }
