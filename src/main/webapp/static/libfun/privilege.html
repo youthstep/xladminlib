@@ -26,9 +26,11 @@
 					, caption : "权限管理"
 					, colModel : [
 				  			{name:'select'
-				  				, formatter : "select"
 				  				, editable : true
 				  				, edittype : "select"
+				  				, formatter : function(cellvalue, options, rowObject){
+				  						return PRIVILEGE_TYPE[rowObject.type];
+				  					}
 				  				, editoptions : {value : PRIVILEGE_TYPE}
 				  				, editrules : {required : true}
 				  			},
@@ -72,7 +74,7 @@
 <div class="libfun-module">
 	<div class="ui-state-default ui-corner-all">
 		<label for="typeSel">类型：</label>
-		<select id="typeSel" ><option value="1">菜单</option><option value="2">接口</option><option value="0">接口</option></select>
+		<select id="typeSel" ><option value="0">自定义</option><option value="1" selected="selected">菜单</option><option value="2">接口</option></select>
 		<label for="queryNo">名称：</label><input id="queryNo" />
 		<label for="queryName">值：</label><input id="queryName" />
 		<button id="searchBtn">搜索</button>

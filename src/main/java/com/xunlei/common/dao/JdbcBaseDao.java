@@ -740,7 +740,7 @@ public abstract class JdbcBaseDao extends JdbcDaoSupport {
      * @param exwheresql 附加的删除用条件
      */
     public <T> void deleteObjectByCondition(T object,String exwheresql){
-        Class clazz = object.getClass();
+        Class<?> clazz = object.getClass();
         String className;
         if(object instanceof ITableName){
             className=((ITableName)object).getTableName();
@@ -757,7 +757,7 @@ public abstract class JdbcBaseDao extends JdbcDaoSupport {
         String fname = "";
         Method method = null;
         Object fieldValue = null;
-        Class type=null;
+        Class<?> type=null;
         try {
             //组成sql语句的条件查询部分
             for (Field field : clazz.getDeclaredFields()) {
@@ -786,7 +786,7 @@ public abstract class JdbcBaseDao extends JdbcDaoSupport {
                 }
             }
             if (StringTools.isNotEmpty(exwheresql)) {
-                sqlWhere.append(" ").append(exwheresql).append(" ");
+                sqlWhere.append(" and ").append(exwheresql).append(" ");
             }
             sql+=sqlWhere.toString();
             //logger.debug("delete sql:"+sql);
