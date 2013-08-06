@@ -44,4 +44,17 @@ public class DataAccessBo<T> extends XLService implements IDataAccessBo<T>{
 		}
 		return rtn;
 	}
+	
+	/**
+	 * 构建一个只包含返回码和消息的DataAccessReturn,尤其适合构建错误信息返回
+	 * @param code DataAccessReturn.ERROR..
+	 * @param msg
+	 * @return
+	 */
+	protected DataAccessReturn<T> genDataAccessReturn(int code, String msg){
+		DataAccessReturn<T> rtn = new DataAccessReturn<T>();
+		rtn.setCode(code);
+		rtn.setMsg(msg);
+		return rtn;
+	}
 }

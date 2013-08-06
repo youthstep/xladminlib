@@ -23,16 +23,36 @@
 					colNames : ['配置编号','配置名称','配置值','备注']
 					, caption : "系统配置"
 					, colModel : [
-				  			{name:'configno', editable : true, edittype : "text"},
-							{name:'configname', editable : true, edittype : "text"},
-							{name:'configvalue', editable : true, edittype : "text"},
-							{name:'remark', editable : true, edittype : "text"}]
+				  			{name:'configno'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 30}
+				  				, editrules : {required : true}
+				  			},
+							{name:'configname'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 40}
+				  				, editrules : {required : true}
+				  			},
+							{name:'configvalue'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 100}
+				  				, editrules : {required : true}
+				  			},
+							{name:'remark'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 255}
+				  			}
+				  		]
 					, colCustom : [{editable : false}, {}, {}, {}]
 				}
 			});
 			
 			$("#searchBtn").button().click(function(){
-				context.getQueryInfo().sqlCondition = "configno like '%" + $("#confignoInp").val() + "%'";
+				context.getQueryInfo().setSqlCondition("configno like '%" + $("#confignoInp").val() + "%' and configname like '%" + $("#confignameInp").val() + "%'");
 				context.query();
 			});
 			
@@ -44,11 +64,9 @@
 <body>
 <div class="libfun-module">
 	<div class="ui-state-default ui-corner-all">
-		<form>
-			配置编号：<input id="confignoInp" />
-			配置名称：<input id="confignameInp" />
-			<button id="searchBtn">搜索</button>
-		</form>
+		<label>配置编号：</label><input id="confignoInp" />
+		<label>配置名称：</label><input id="confignameInp" />
+		<button id="searchBtn">搜索</button>
 	</div>
 	<div class="libfun-content">
 		<table id="list"></table>

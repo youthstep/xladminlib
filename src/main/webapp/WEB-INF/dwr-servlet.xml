@@ -21,6 +21,9 @@
     	<dwr:convert type="bean" class="com.xunlei.libfun.vo.LibConfig" />
     	<dwr:convert type="bean" class="com.xunlei.libfun.vo.LibClassM" />
     	<dwr:convert type="bean" class="com.xunlei.libfun.vo.LibClassD" />
+    	<dwr:convert type="bean" class="com.xunlei.libfun.vo.Privilege" />
+    	<dwr:convert type="bean" class="com.xunlei.libfun.vo.Role" />
+    	<dwr:convert type="bean" class="com.xunlei.libfun.vo.Users" />
     </dwr:configuration>
 	<dwr:controller id="dwrController" debug="true" />
 	<dwr:url-mapping />

@@ -1,15 +1,12 @@
 package com.xunlei.libfun.vo;
 
-import com.xunlei.common.util.Extendable;
-import com.xunlei.common.util.StringTools;
-
-
+import org.directwebremoting.annotations.DataTransferObject;
 
 /**
  * 角色的VO类
  */
-
-public class Role  implements java.io.Serializable {
+@DataTransferObject
+public class Role {
 
     private long seqid =0L;
     private String no;

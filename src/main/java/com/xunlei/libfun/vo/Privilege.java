@@ -1,6 +1,8 @@
 package com.xunlei.libfun.vo;
 
+import org.directwebremoting.annotations.DataTransferObject;
 
+@DataTransferObject
 public class Privilege {
 	private long seqid;
 	private int type;
