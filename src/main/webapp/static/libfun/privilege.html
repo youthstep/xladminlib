@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>角色管理</title>
+<link href="../css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet" />
+<link href="../css/ui.jqgrid.css" rel="stylesheet" />
+<link href="../css/common.css" rel="stylesheet" />
+<script src="../js/jquery.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src='../js/common.js'></script>
+<script src="../js/jquery.jqGrid.js"></script>
+<script type="text/javascript">
+	$(function(){
+		xl.libfun.loadService([ "privilegeService" ], function() {
+			var grid = $("#list")
+				, context = new xl.libfun.QueryContext({grid : grid, ser : privilegeService, queryInfo : new xl.libfun.QueryInfo()})
+				, PRIVILEGE_TYPE = {1 : "菜单", 2 : "接口", 0 : "自定义"};
+			
+			xl.libfun.jqGridInit({
+				grid : "#list"
+				, context : context
+				, pager : "#pager"
+				, options : {
+					colNames : ['类型','名称','值','备注']
+					, caption : "权限管理"
+					, colModel : [
+				  			{name:'select'
+				  				, formatter : "select"
+				  				, editable : true
+				  				, edittype : "select"
+				  				, editoptions : {value : PRIVILEGE_TYPE}
+				  				, editrules : {required : true}
+				  			},
+							{name:'name'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 20}
+				  				, editrules : {required : true}
+				  			},
+							{name:'value'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 100}
+				  				, editrules : {required : true}
+				  			},
+							{name:'remark'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 100}
+				  			}
+				  		]
+					, colCustom : [{editable : false}, {}, {}, {}]
+				}
+			});
+			
+			$("#searchBtn").button().click(searchChange);
+			
+			$("#typeSel").on("change", searchChange);
+			
+			function searchChange(){
+				context.getQueryInfo().setSqlCondition("type=" + $("#typeSel").val() + " and name like '%" + $("#queryNo").val() + "%' and value like '%" + $("#queryName").val() + "%'");
+				context.query();
+			}
+			
+			searchChange();
+		});
+	});
+</script>
+</head>
+<body>
+<div class="libfun-module">
+	<div class="ui-state-default ui-corner-all">
+		<label for="typeSel">类型：</label>
+		<select id="typeSel" ><option value="1">菜单</option><option value="2">接口</option><option value="0">接口</option></select>
+		<label for="queryNo">名称：</label><input id="queryNo" />
+		<label for="queryName">值：</label><input id="queryName" />
+		<button id="searchBtn">搜索</button>
+	</div>
+	<div class="libfun-content">
+		<table id="list"></table>
+		<div id="pager"></div>
+	</div>
+</div>
+</body>
+</html>
