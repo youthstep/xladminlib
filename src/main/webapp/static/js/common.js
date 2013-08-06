@@ -542,6 +542,18 @@ xl.libfun.jqGridInit = function(p){
 		}
 	}
 	
+	function initColCustom(e, f, op){
+		//实现了一次新增就不允许更新
+		if(options.colCustom){
+			$.each(options.colCustom, function(i, v){
+				if(v.editable === false){
+					var ipt = f.find("input[name=" + options.colModel[i].name + "]");
+					op === "add" ? ipt.removeAttr("readonly") : ipt.attr("readonly", "readonly");
+				}
+			});
+		}
+	}
+	
 	grid.jqGrid(options)
 		.on("jqGridPagerStateChange", function(e){
 			//这个时间是因为分页触发的
@@ -550,15 +562,11 @@ xl.libfun.jqGridInit = function(p){
 			context.getQueryInfo().setPageSize(pi.rowNum);
 			context.query();
 		})
-		.on("jqGridAddEditBeforeInitData", function(e, f, op){
-			if(options.colCustom){
-				$.each(options.colCustom, function(i, v){
-					if(v.editable === false){
-						var col = options.colModel[i].name;
-						f.find("input[name=configno]").attr("readonly", op === "add" ? "" : "disabled");
-					}
-				});
-			}
-		})
+		.on("jqGridAddEditBeforeInitData", initColCustom)
+		.on("jqGridAddEditInitializeForm", initColCustom)
 		.navGrid(p.pager, {edit : true, add : true, del : true, search : false});
+};
+
+xl.libfun.auth = {
+	
 };
