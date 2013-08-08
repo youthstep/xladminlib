@@ -2,6 +2,7 @@ package com.xunlei.libfun.bo;
 
 import java.util.List;
 
+import org.directwebremoting.annotations.RemoteMethod;
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.xunlei.common.bo.BaseBo;
 import com.xunlei.common.dao.IUtilDao;
 import com.xunlei.libfun.vo.Privilege;
+import com.xunlei.libfun.vo.Role;
 
 @Service("authService")
 @RemoteProxy(name="authService")
@@ -23,6 +25,18 @@ public class AuthBoImpl extends BaseBo implements IAuthBo{
 				, "select p.* from usersrole ur,roleprivilege rp,privilege p where ur.username='" + username +"' and ur.roleno=rp.roleno and rp.privilegeid=p.seqid and p.type=" + type);
 	}
 
+	@Override
+	@RemoteMethod
+	public List<Role> queryRoleByUsername(String username) {
+		return utilDao.query(Role.class, "select r.* from role r,usersrole ur where ur.username='" + username + "' and ur.roleno=r.no");
+	}
+
+	@Override
+	@RemoteMethod
+	public List<Role> queryExcludedRoleByUsername(String username) {
+		return utilDao.query(Role.class, "select * from role where no not in(select roleno from usersrole where username='" + username + "')");
+	}
+	
 //	@Override
 //	public boolean hasPrivlege(String username, int type, String privlegeValue) {
 //		return false;

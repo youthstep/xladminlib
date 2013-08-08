@@ -3,6 +3,7 @@ package com.xunlei.libfun.bo;
 import java.util.List;
 
 import com.xunlei.libfun.vo.Privilege;
+import com.xunlei.libfun.vo.Role;
 
 
 public interface IAuthBo {
@@ -12,6 +13,19 @@ public interface IAuthBo {
 	 * @return
 	 */
 	List<Privilege> getUserPrivilegeByType(String username, int type);
+	
+	/**
+	 * @param username
+	 * @return
+	 */
+	List<Role> queryRoleByUsername(String username);
+	
+	/**
+	 * 查询用户不包含的role
+	 * @param username
+	 * @return
+	 */
+	List<Role> queryExcludedRoleByUsername(String username);
 	
 //	/**
 //	 * @param username
