@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户管理</title>
+<link href="../css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet" />
+<link href="../css/ui.jqgrid.css" rel="stylesheet" />
+<link href="../css/common.css" rel="stylesheet" />
+<script src="../js/jquery.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src='../js/common.js'></script>
+<script src="../js/jquery.jqGrid.js"></script>
+<script type="text/javascript">
+	$(function(){
+		xl.libfun.loadService([ "usersService" ], function() {
+			var grid = $("#list"), context = new xl.libfun.QueryContext({grid : grid, ser : usersService, queryInfo : new xl.libfun.QueryInfo()});
+			
+			xl.libfun.jqGridInit({
+				grid : "#list"
+				, context : context
+				, pager : "#pager"
+				, options : {
+					colNames : ['用户名','密码','姓名','管理员','生效','绑定IP','电话','邮箱']
+					, caption : "用户管理"
+					, colModel : [
+				  			{name:'userlogno'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 30, size : 30}
+				  				, editrules : {required : true}
+				  			},
+				  			{name:'userpassword'
+				  				, editable : true
+				  				, edittype : "password"
+				  				, editoptions : {maxlength : 50, size : 30}
+				  				, editrules : {required : true}
+				  			},
+							{name:'truename'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 10}
+				  				, editrules : {required : true}
+				  			},
+							{name:'superman'
+				  				, editable : true
+				  				, edittype : "checkbox"
+				  				, formatter : "checkbox"
+				  			},
+							{name:'inuse'
+				  				, editable : true
+				  				, edittype : "checkbox"
+				  				, formatter : "checkbox"
+				  			},
+				  			{name:'bindip'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 15}
+				  			},
+				  			{name:'tel'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 15}
+				  			},
+				  			{name:'email'
+				  				, editable : true
+				  				, edittype : "email"
+				  				, editoptions : {maxlength : 30}
+				  			}
+				  		]
+					, colCustom : [{editable : false}, {}, {}, {}, {}, {}, {}, {}]
+				}
+			});
+			
+			$("#searchBtn").button().click(function(){
+				context.getQueryInfo().setSqlCondition("userlogno like '%" + $("#queryNo").val() + "%' and truename like '%" + $("#queryName").val() + "%'");
+				context.query();
+			});
+			
+			context.query();
+		});
+	});
+</script>
+</head>
+<body>
+<div class="libfun-module">
+	<div class="ui-state-default ui-corner-all">
+		<label for="queryNo">用户名：</label><input id="queryNo" />
+		<label for="queryName">姓名：</label><input id="queryName" />
+		<button id="searchBtn">搜索</button>
+	</div>
+	<div class="libfun-content">
+		<table id="list"></table>
+		<div id="pager"></div>
+	</div>
+</div>
+</body>
+</html>

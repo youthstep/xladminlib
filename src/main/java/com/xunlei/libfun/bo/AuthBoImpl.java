@@ -2,6 +2,7 @@ package com.xunlei.libfun.bo;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.directwebremoting.annotations.RemoteMethod;
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import com.xunlei.common.bo.BaseBo;
 import com.xunlei.common.dao.IUtilDao;
 import com.xunlei.libfun.vo.Privilege;
 import com.xunlei.libfun.vo.Role;
+import com.xunlei.libfun.vo.RolePrivilege;
+import com.xunlei.libfun.vo.UsersRole;
 
 @Service("authService")
 @RemoteProxy(name="authService")
@@ -36,15 +39,43 @@ public class AuthBoImpl extends BaseBo implements IAuthBo{
 	public List<Role> queryExcludedRoleByUsername(String username) {
 		return utilDao.query(Role.class, "select * from role where no not in(select roleno from usersrole where username='" + username + "')");
 	}
+
+	@Override
+	@RemoteMethod
+	public void insertUsersrole(String username, String roleno) {
+		utilDao.insertObject(new UsersRole(username, roleno));
+	}
+
+	@Override
+	@RemoteMethod
+	public void deleteUsersroleByUsername(String username, Role[] datas) {
+		utilDao.deleteObjectByCondition(new UsersRole(), "username='" + username + "' and roleno in ('" + StringUtils.join(datas, "','") + "')");
+	}
+
+	@Override
+	@RemoteMethod
+	public List<Privilege> queryRoleprivilegeByRoleno(String roleno) {
+		return utilDao.query(Privilege.class, "select p.* from privilege p,roleprivilege rp where rp.roleno='" + roleno + "' and rp.prvilegeid=p.seqid");
+	}
+
+	@Override
+	@RemoteMethod
+	public List<Privilege> queryExcludedRoleprivilegeByRoleno(String roleno) {
+		return utilDao.query(Privilege.class, "select * from privilege where seqid not in(select seqid from roleprivilege where roleno='" + roleno + "')");
+	}
+
+	@Override
+	@RemoteMethod
+	public void insertRoleprivilegeByRoleno(String roleno, long privilegeid) {
+		utilDao.insertObject(new RolePrivilege(roleno, privilegeid));
+	}
+
+	@Override
+	@RemoteMethod
+	public void deleteRoleprivilegeByRoleno(String roleno, Privilege[] datas) {
+		utilDao.deleteObjectByCondition(new RolePrivilege(), "roleno='" + roleno + "' privilegeid in (" + StringUtils.join(datas, ",") + ")");
+	}
 	
-//	@Override
-//	public boolean hasPrivlege(String username, int type, String privlegeValue) {
-//		return false;
-//	}
-	
-//	@Autowired
-//	public IRolesDao rolesDao;
-//
 //	@Override
 //	@RemoteMethod
 //	public void refreshServicePermission() {
@@ -86,83 +117,5 @@ public class AuthBoImpl extends BaseBo implements IAuthBo{
 //			authDao.deletePermissionById(pid);
 //			authDao.deleteRoleToPermissionByPermissionId(pid);
 //		}
-//	}
-//	
-//	@Override
-//	@RemoteMethod
-//	public List<Permission> getPermissionsByRoleno(String roleno) {
-//		return authDao.queryPermissionsByRoleNo(roleno);
-//	}
-//	
-//	@Override
-//	public boolean hasPermission(String userlogo, String className,
-//			String methodName) {
-//		return authDao.hasPermission(userlogo, className, methodName);
-//	}
-//
-//	@Override
-//	@RemoteMethod
-//	public List<Role> getAllRoles() {
-//		return rolesDao.getAllRoles();
-//	}
-//
-//	@Override
-//	@RemoteMethod
-//	public RoleToPermission insertRoleToPermission(RoleToPermission roleToPermission) {
-//		return authDao.insertRoleToPermission(roleToPermission);
-//	}
-//
-//	@Override
-//	@RemoteMethod
-//	public List<Permission> getAllPermission() {
-//		return authDao.queryAllPermission();
-//	}
-//
-//	@Override
-//	@RemoteMethod
-//	public List<Users> getUsersByRoleno(String roleno) {
-//		return authDao.getUsersByRoleno(roleno);
-//	}
-//
-//	@Override
-//	@RemoteMethod
-//	public List<Role> getRolesByUserlogno(String userlogno) {
-//		return authDao.getRolesByUserlogno(userlogno);
-//	}
-//
-//	@Override
-//	@RemoteMethod
-//	public List<Role> getRolesByPermissionid(long pid) {
-//		return authDao.getRolesByPermissionid(pid);
-//	}
-//
-//	@Override
-//	@RemoteMethod
-//	public UserToRole insertUserToRole(UserToRole data) {
-//		return authDao.insertUserToRole(data);
-//	}
-//
-//	@Override
-//	@RemoteMethod
-//	public void deleteUserToRole(UserToRole data) {
-//		authDao.deleteUserToRole(data);
-//	}
-//
-//	@Override
-//	@RemoteMethod
-//	public void deleteRoleToPermission(RoleToPermission data) {
-//		authDao.deleteRoleToPermission(data);
-//	}
-//
-//	@Override
-//	public void deleteUserToRoleByUserlognoAndRoleno(String userlogno,
-//			String roleno) {
-//		authDao.deleteUserToRoleByUserlognoAndRoleno(userlogno, roleno);
-//	}
-//
-//	@Override
-//	public void deleteRoleToPermissionByRolenoAndPermissionid(String roleno,
-//			String permissionid) {
-//		authDao.deleteRoleToPermissionByRolenoAndPermissionid(roleno, permissionid);
 //	}
 }

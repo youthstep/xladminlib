@@ -27,6 +27,18 @@ public interface IAuthBo {
 	 */
 	List<Role> queryExcludedRoleByUsername(String username);
 	
+	void insertUsersrole(String username, String roleno);
+	
+	void deleteUsersroleByUsername(String username, Role[] datas);
+	
+	List<Privilege> queryRoleprivilegeByRoleno(String roleno);
+	
+	List<Privilege> queryExcludedRoleprivilegeByRoleno(String roleno);
+	
+	void insertRoleprivilegeByRoleno(String roleno, long privilegeid);
+	
+	void deleteRoleprivilegeByRoleno(String roleno, Privilege[] datas);
+	
 //	/**
 //	 * @param username
 //	 * @param type

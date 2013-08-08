@@ -1,10 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="GB18030">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>角色管理</title>
+<link href="../css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet" />
+<link href="../css/ui.jqgrid.css" rel="stylesheet" />
+<link href="../css/common.css" rel="stylesheet" />
+<script src="../js/jquery.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src='../js/common.js'></script>
+<script src="../js/jquery.jqGrid.js"></script>
+<script type="text/javascript">
+	$(function(){
+		xl.libfun.loadService([ "roleService", "authService" ], function() {
+			var grid = $("#list"), context = new xl.libfun.QueryContext({grid : grid, ser : roleService, queryInfo : new xl.libfun.QueryInfo()});
+			
+			xl.libfun.jqGridInit({
+				grid : "#list"
+				, context : context
+				, pager : "#pager"
+				, options : {
+					colNames : ['角色编号','角色名称','类型','备注']
+					, caption : "角色管理"
+					, colModel : [
+				  			{name:'no'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 20}
+				  				, editrules : {required : true}
+				  			},
+							{name:'name'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 50}
+				  				, editrules : {required : true}
+				  			},
+							{name:'type'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {integer : true}
+				  				, editrules : {required : true}
+				  			},
+							{name:'remark'
+				  				, editable : true
+				  				, edittype : "text"
+				  				, editoptions : {maxlength : 100}
+				  			}
+				  		]
+					, colCustom : [{editable : false}, {}, {}, {}]
+				}
+			});
+			
+			$("#searchBtn").button().click(function(){
+				context.getQueryInfo().setSqlCondition("no like '%" + $("#queryNo").val() + "%' and name like '%" + $("#queryName").val() + "%'");
+				context.query();
+			});
+			
+			context.query();
+		});
+	});
+</script>
 </head>
 <body>
-
+<div class="libfun-module">
+	<div class="ui-state-default ui-corner-all">
+		<label for="queryNo">角色编号：</label><input id="queryNo" />
+		<label for="queryName">角色名称：</label><input id="queryName" />
+		<button id="searchBtn">搜索</button>
+	</div>
+	<div class="libfun-content">
+		<table id="list"></table>
+		<div id="pager"></div>
+	</div>
+</div>
 </body>
 </html>

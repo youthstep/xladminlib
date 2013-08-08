@@ -983,9 +983,11 @@ public abstract class JdbcBaseDao extends JdbcDaoSupport {
                     continue;
                 }
                 fname = field.getName();
+                String getterName = (field.getType().getName().equals("boolean") ? "is" : "get") + capitalize(fname);
                 try{
-                	method = clazz.getDeclaredMethod("get" + capitalize(fname));
+                	method = clazz.getDeclaredMethod(getterName);
                 } catch(NoSuchMethodException e){
+                	logger.warn("can not find getter : " + getterName);
                 	continue;
                 }
                 if(excludeFields==null && includeFields==null){
@@ -1071,8 +1073,7 @@ public abstract class JdbcBaseDao extends JdbcDaoSupport {
 
             datas = new DataAccessReturn<T>(rowCount, list);
         } catch (Exception ex) {
-        	ex.printStackTrace();
-        	logger.debug("current sql:"+sql); 
+        	logger.error("", ex); 
             throw new XLRuntimeException("current sql:" + sql.toString(), ex);
         }
 

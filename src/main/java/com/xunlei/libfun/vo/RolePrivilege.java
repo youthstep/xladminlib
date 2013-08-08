@@ -4,6 +4,20 @@ import com.xunlei.common.bo.BaseBo;
 
 public class RolePrivilege extends BaseBo {
 
+	private long seqid;
+	
+	public RolePrivilege(String roleno, long privilegeid) {
+		super();
+		this.roleno = roleno;
+		this.privilegeid = privilegeid;
+	}
+	
+	public long getSeqid() {
+		return seqid;
+	}
+	public void setSeqid(long seqid) {
+		this.seqid = seqid;
+	}
 	private String roleno;
 	private long privilegeid;
 	

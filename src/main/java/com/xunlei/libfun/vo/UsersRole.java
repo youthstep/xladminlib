@@ -4,9 +4,24 @@ import com.xunlei.common.vo.BaseVO;
 
 public class UsersRole extends BaseVO {
 
+	private long seqid;
+	public long getSeqid() {
+		return seqid;
+	}
+
+	public void setSeqid(long seqid) {
+		this.seqid = seqid;
+	}
+
 	private String username;
 	private String roleno;
 	
+	public UsersRole(String username, String roleno) {
+		super();
+		this.username = username;
+		this.roleno = roleno;
+	}
+
 	public String getUsername() {
 		return username;
 	}
