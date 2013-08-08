@@ -15,7 +15,7 @@
            http://www.springframework.org/schema/aop/spring-aop.xsd">
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://aliyun.manhaha.com:3306/xllib4" />
+		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/xllib4" />
 		<property name="user" value="root" />
 		<property name="password" value="sd-9898w" />
 		<property name="minPoolSize" value="10" />                    <!--连接池中保留的最小连接数。 -->
