@@ -38,7 +38,7 @@ xl.loginForm = {
 					} else if (bl.isEmpty(bl("vcode").value)) {
 						showError("请输入验证码");
 					} else {
-						commonService.login(bl("username").value, $.md5(bl("flpwd").value), bl("vcode").value,
+						commonService.login(bl("username").value, bl("flpwd").value, bl("vcode").value,
 								function(rtn) {
 									switch(rtn.loginStatus){
 										case xl.login.OK : 

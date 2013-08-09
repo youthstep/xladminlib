@@ -12,8 +12,17 @@
 <script src="../js/jquery.jqGrid.js"></script>
 <script type="text/javascript">
 	$(function(){
-		xl.libfun.loadService([ "usersService" ], function() {
-			var grid = $("#list"), context = new xl.libfun.QueryContext({grid : grid, ser : usersService, queryInfo : new xl.libfun.QueryInfo()});
+		xl.libfun.loadService([ "usersService" "authService"], function() {
+			var grid = $("#list"), roleGrid = $("#roleGrid"), otherRoleGrid = $("#otherRoleGrid"), user,
+				, context = new xl.libfun.QueryContext({grid : grid, ser : usersService, queryInfo : new xl.libfun.QueryInfo()});
+			
+			function refreshRole(){
+				
+			}
+			
+			function refreshOtherRole(){
+				
+			}
 			
 			xl.libfun.jqGridInit({
 				grid : "#list"
@@ -30,10 +39,11 @@
 				  				, editrules : {required : true}
 				  			},
 				  			{name:'userpassword'
+				  				, hidden : true
 				  				, editable : true
 				  				, edittype : "password"
 				  				, editoptions : {maxlength : 50, size : 30}
-				  				, editrules : {required : true}
+				  				, editrules : {required : true, edithidden : true}
 				  			},
 							{name:'truename'
 				  				, editable : true
@@ -45,11 +55,13 @@
 				  				, editable : true
 				  				, edittype : "checkbox"
 				  				, formatter : "checkbox"
+				  				, editoptions : {value : "true:false"}
 				  			},
 							{name:'inuse'
 				  				, editable : true
 				  				, edittype : "checkbox"
 				  				, formatter : "checkbox"
+				  				, editoptions : {value : "true:false"}
 				  			},
 				  			{name:'bindip'
 				  				, editable : true
@@ -63,11 +75,12 @@
 				  			},
 				  			{name:'email'
 				  				, editable : true
-				  				, edittype : "email"
+				  				, edittype : "text"
 				  				, editoptions : {maxlength : 30}
+				  				, editrules : {email : true, required : true}
 				  			}
 				  		]
-					, colCustom : [{editable : false}, {}, {}, {}, {}, {}, {}, {}]
+					, colCustom : [{editable : false}, {editable : false}, {}, {}, {}, {}, {}, {}]
 				}
 			});
 			
@@ -76,7 +89,50 @@
 				context.query();
 			});
 			
+			roleGrid.jqGrid({
+				datatype : "local",
+				autowidth : true,
+				height : "auto",
+				deselectAfterSort : true,
+				viewrecords : true,
+				multiselect : true,
+				toppager : true,
+				rowNum : 20,
+				colNames : ["角色编号", "角色名称"],
+				colModel : [{name : "no"}, {name : "name"}],
+				caption : "已有角色"
+			});
+			
+			roleGrid.jqGrid({
+				datatype : "local",
+				autowidth : true,
+				height : "auto",
+				deselectAfterSort : true,
+				viewrecords : true,
+				multiselect : true,
+				toppager : true,
+				rowNum : 20,
+				colNames : ["角色编号", "角色名称"],
+				colModel : [{name : "no"}, {name : "name"}],
+				caption : "其他角色"
+			});
+			
+			otherRoleGrid.jqGrid({
+				datatype : "local",
+				autowidth : true,
+				height : "auto",
+				deselectAfterSort : true,
+				multiselect : true,
+				toppager : true,
+				rowNum : 20,
+				colNames : ["角色编号", "角色名称"],
+				colModel : [{name : "no"}, {name : "name"}],
+				caption : "其他角色"
+			});
+			
 			context.query();
+			refreshRole();
+			refreshOtherRole()
 		});
 	});
 </script>
@@ -91,6 +147,14 @@
 	<div class="libfun-content">
 		<table id="list"></table>
 		<div id="pager"></div>
+	</div>
+	<div>
+		<table id="grid1" style="float:left;"></table>
+		<ul class="ui-widget ui-helper-clearfix" style="float:left;">
+			<li class="ui-state-default ui-corner-all" style="float:left;cursor:pointer;"><span class="ui-icon ui-icon-arrowthick-1-w"></span></li>
+			<li class="ui-state-default ui-corner-all" style="float:left;cursor:pointer;"><span class="ui-icon ui-icon-arrowthick-1-e"></span></li>
+		</ul>
+		<table id="grid2" style="float:left;"></table>
 	</div>
 </div>
 </body>

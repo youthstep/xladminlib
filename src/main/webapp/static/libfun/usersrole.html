@@ -13,7 +13,9 @@
 <script type="text/javascript">
 	$(function(){
 		xl.libfun.loadService([ "roleService", "authService" ], function() {
-			var grid = $("#list"), context = new xl.libfun.QueryContext({grid : grid, ser : roleService, queryInfo : new xl.libfun.QueryInfo()});
+			var usersGrid = $("#usersGrid")
+				, rolesGrid = 
+				, usersContext = new xl.libfun.QueryContext({grid : usersGrid, ser : usersService, queryInfo : new xl.libfun.QueryInfo()});
 			
 			xl.libfun.jqGridInit({
 				grid : "#list"
@@ -63,14 +65,13 @@
 </head>
 <body>
 <div class="libfun-module">
-	<div class="ui-state-default ui-corner-all">
-		<label for="queryNo">角色编号：</label><input id="queryNo" />
-		<label for="queryName">角色名称：</label><input id="queryName" />
-		<button id="searchBtn">搜索</button>
-	</div>
-	<div class="libfun-content">
-		<table id="list"></table>
-		<div id="pager"></div>
+	<div>
+		<div>
+			<table id="usersGrid"></table>
+		</div>
+		<div>
+			<table id="roleGrid"></table>
+		</div>
 	</div>
 </div>
 </body>

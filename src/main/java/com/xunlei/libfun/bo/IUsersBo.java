@@ -1,6 +1,5 @@
 package com.xunlei.libfun.bo;
 
-import com.xunlei.common.bo.IDataAccessBo;
 import com.xunlei.libfun.vo.UserInfo;
 import com.xunlei.libfun.vo.Users;
 
@@ -9,8 +8,10 @@ import com.xunlei.libfun.vo.Users;
  * 
  * @author Brice Li
  */
-public interface IUsersBo extends IDataAccessBo<Users>{
+public interface IUsersBo{
 	public UserInfo login(String userlogo,String password,String ip);
 	
 	public Users queryUsersByUserLogNo(String userlogno);
+	
+	public void updatePasswordByUsername(String username, String password);
 }

@@ -1,6 +1,5 @@
 package com.xunlei.libfun.bo;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import org.apache.commons.lang.StringUtils;

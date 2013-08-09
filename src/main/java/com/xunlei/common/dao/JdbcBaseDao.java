@@ -15,7 +15,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -38,7 +39,7 @@ import com.xunlei.common.web.bean.DataAccessReturn;
 @SuppressWarnings("unchecked")
 public abstract class JdbcBaseDao extends JdbcDaoSupport {
 	
-    protected static final Logger logger = Logger.getLogger(JdbcBaseDao.class);
+    protected static final Log logger = LogFactory.getLog("auth");
 
     private ITableNameProvider iTableNameProvider=null;
 
@@ -574,7 +575,7 @@ public abstract class JdbcBaseDao extends JdbcDaoSupport {
                     continue;
                 }
 
-                method = clazz.getDeclaredMethod("get" + capitalize(fname));
+                method = clazz.getDeclaredMethod((field.getType().getName().equals("boolean") ? "is" : "get") + capitalize(fname));
                 fieldValue=method.invoke(object);
                 //对于seqid默认为自增主键
                 if(fname.equalsIgnoreCase(pk.name()) && StringTools.isEmpty(primarykeyName)){
@@ -598,11 +599,11 @@ public abstract class JdbcBaseDao extends JdbcDaoSupport {
                 type=field.getType();
                 if(isNumType(type) ){
                     sqlValue.append(getEacapeFieldName(fname)).append("=").append(fieldValue.toString()).append(",");
-                }
-                else if(type==Date.class){
+                }else if(field.getType().getName().equals("boolean")){
+                	sqlValue.append(getEacapeFieldName(fname)).append("=").append(Boolean.valueOf(fieldValue.toString()) ? 1 : 0).append(",");
+                }else if(type==Date.class){
                     sqlValue.append(getEacapeFieldName(fname)).append("='").append(DatetimeUtil.formatyyyyMMddHHmmss((Date)fieldValue)).append("',");
-                }
-                else{//对于非上面的类型都使用字符串形式更新。对某些数据类型有可能出错
+                }else{//对于非上面的类型都使用字符串形式更新。对某些数据类型有可能出错
                     sqlValue.append(getEacapeFieldName(fname)).append("='").append(StringTools.escapeSql(fieldValue)).append("',");
                 }
             }
@@ -666,17 +667,17 @@ public abstract class JdbcBaseDao extends JdbcDaoSupport {
                     continue;
                 }
 
-                method = clazz.getDeclaredMethod("get" + capitalize(fname));
+                method = clazz.getDeclaredMethod((field.getType().getName().equals("boolean") ? "is" : "get") + capitalize(fname));
                 fieldValue=method.invoke(object);
                 sqlColumn.append(getEacapeFieldName(fname));
                 type=field.getType();
-                if(isNumType(type) ){
+                if(isNumType(type)){
                     sqlValue.append(fieldValue.toString());
-                }
-                else if(field.getType()==Date.class){
+                }else if(type.getName().equals("boolean")){
+                	sqlValue.append(Boolean.valueOf(fieldValue.toString()) ? 1 : 0);
+                }else if(field.getType()==Date.class){
                     sqlValue.append("'").append(DatetimeUtil.formatyyyyMMddHHmmss((Date)fieldValue)).append("'");
-                }
-                else{
+                }else{
                     sqlValue.append("'").append(StringTools.escapeSql(fieldValue)).append("'");
                 }
                 sqlColumn.append(",");
@@ -694,6 +695,7 @@ public abstract class JdbcBaseDao extends JdbcDaoSupport {
             method.invoke(object, seqid);
         }
         catch(Exception ex){
+        	logger.error("", ex);
             new XLRuntimeException(ex);
         }
 
